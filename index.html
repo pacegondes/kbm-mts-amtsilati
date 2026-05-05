@@ -2,16 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1280, initial-scale=1.0"/>
-  <title>LAPORAN KBM SISWA - DESKTOP MODE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LAPORAN KBM SISWA</title>
   <link rel="icon" href="https://i.ibb.co.com/1fHCTtJ5/logo.png" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Akademik MTs Amtsilati</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
   <style>
     html, body {
       margin: 0;
@@ -19,324 +12,25 @@
       width: 100%;
       height: 100%;
       background-color: #eee;
-      overflow: auto; /* Mengizinkan scroll jika layar di bawah 1280px */
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    @keyframes scaleUp {
-      from { opacity: 0; transform: scale(0.95) translateY(10px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      overflow: hidden; /* Mencegah scroll ganda */
     }
-    .animate-scale-up { animation: scaleUp 0.3s ease-out forwards; }
-    .backdrop-blur-sm { backdrop-filter: blur(4px); }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #00AA5B; border-radius: 10px; }
-  </style>
-</head>
-<body class="bg-[#f0f3f7]">
 
-<div id="public-view" class="min-h-screen flex flex-col">
-
-  <!-- Navigation -->
-  <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 py-3 px-4 shadow-sm">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-3">
-          <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo" class="w-9 h-9 object-contain">
-          <div class="flex flex-col">
-            <span class="text-lg font-extrabold tracking-tight text-[#00AA5B] leading-none uppercase">AKADEMIK MTs Amtsilati</span>
-            <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase mt-0.5">Portal Informasi KBM Siswa</span>
-          </div>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <button onclick="toggleModal('modal-progress')" class="hidden md:flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-600 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all hover:bg-gray-200 active:scale-95">
-          <i data-lucide="search" class="w-4 h-4"></i>
-          <span>Cek Progres</span>
-        </button>
-
-        <button onclick="toggleModal('login-modal')" class="group relative flex items-center gap-3 px-6 py-2.5 bg-[#00AA5B] text-white rounded-2xl font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:bg-[#008f4c] hover:shadow-[0_10px_20px_-5px_rgba(0,170,91,0.4)] active:scale-95 overflow-hidden">
-          <div class="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-[-25deg] -translate-x-full group-hover:translate-x-[250%] transition-transform duration-700 ease-in-out"></div>
-          <i data-lucide="shield-check" class="w-4 h-4"></i>
-          <span>Admin Portal</span>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <div class="bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 py-8 md:py-16 flex flex-col md:flex-row items-center gap-10">
-      <div class="flex-1 w-full text-center md:text-left">
-        <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
-          Pantau Progres Belajar <br><span class="text-[#00AA5B]">Siswa Secara Real-Time</span>
-        </h1>
-        <p class="text-gray-500 text-lg mb-8 font-medium">Cek laporan KBM, sisa cicilan denda, dan status kelulusan tes hanya dengan Nama & Kelas.</p>
-
-        <div class="bg-white p-2 rounded-2xl border border-gray-200 flex flex-col md:flex-row gap-2 max-w-2xl mx-auto md:mx-0 shadow-lg">
-          <select id="sel-kelas" class="p-4 bg-gray-50 border-none rounded-xl outline-none text-sm font-semibold focus:ring-2 focus:ring-green-400 cursor-pointer">
-              <option value="">Pilih Kelas</option>
-              <option value="7A">7A</option>
-              <option value="7B">7B</option>
-              <option value="8A">8A</option>
-              <option value="8B">8B</option>
-              <option value="9A">9A</option>
-              <option value="9B">9B</option>
-          </select>
-          <input type="text" id="inp-nama" placeholder="Masukkan Nama Lengkap Siswa..." class="flex-1 p-4 bg-gray-50 border-none rounded-xl outline-none text-sm focus:ring-2 focus:ring-green-400 uppercase font-bold">
-          <button onclick="Progress.doSearchMain()" class="bg-[#00AA5B] text-white px-8 py-4 rounded-xl font-bold text-sm shadow-lg hover:bg-[#008f4c] transition active:scale-95 flex items-center justify-center gap-2">
-            <i data-lucide="search" class="w-4 h-4"></i> Cek Progres
-          </button>
-        </div>
-      </div>
-
-      <div class="identity-card w-80 p-8 bg-green-50 rounded-[2rem] border border-green-100 flex flex-col items-center justify-center text-center shadow-inner">
-        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-md mb-4 p-2 border border-white">
-           <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo" class="w-full h-full object-contain">
-        </div>
-        <div class="flex flex-col items-center">
-          <h4 class="font-bold text-emerald-900 text-base uppercase leading-tight">Madrasah<br>Tsanawiyah Amtsilti</h4>
-          <div class="h-[2px] w-8 bg-[#00AA5B] my-3 opacity-30"></div>
-          <p class="text-[10px] text-emerald-600 font-bold tracking-[0.2em] uppercase">TA 2025/2026</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-      <!-- Stats -->
-      <div class="lg:col-span-1 space-y-6">
-        <h3 class="font-bold text-gray-800 flex items-center gap-2 text-lg uppercase tracking-tight">
-           <span class="w-2 h-8 bg-[#00AA5B] rounded-full"></span> Statistik Tes
-        </h3>
-
-        <div class="bg-white p-8 rounded-2xl shadow-sm border-l-8 border-orange-500 flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-500 font-bold uppercase tracking-wide">Total Antrean Tes</p>
-            <h2 class="text-5xl font-black text-gray-800 mt-1" id="stat-kbm-tes">0</h2>
-            <p class="text-xs text-orange-600 mt-2 font-black uppercase">Mata Pelajaran</p>
-          </div>
-          <div class="p-5 bg-orange-50 rounded-2xl text-orange-500">
-            <i data-lucide="layers-2" class="w-10 h-10"></i>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
-           <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-blue-50/30">
-              <h4 class="font-bold text-gray-800 text-md">Top Antrean Kelas</h4>
-              <i data-lucide="school" class="w-5 h-5 text-blue-500"></i>
-           </div>
-           <div class="p-5 space-y-4" id="list-top-kelas">
-              <p class="text-center text-xs text-gray-400 italic">Memuat data...</p>
-           </div>
-        </div>
-      </div>
-
-      <!-- Live Table -->
-      <div class="lg:col-span-2">
-        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
-          <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-            <h3 class="text-lg font-bold text-gray-800">Antrean Tes Pengesahan (Real-Time)</h3>
-            <span class="flex items-center gap-2 text-xs font-bold text-[#00AA5B] px-4 py-2 bg-green-50 rounded-full border border-green-100 uppercase">
-              <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> Live System
-            </span>
-          </div>
-          <div class="overflow-x-auto min-h-[300px]">
-            <table class="w-full text-left">
-              <thead class="bg-gray-50 text-gray-500 text-xs uppercase font-bold tracking-wider">
-                <tr>
-                  <th class="px-6 py-5 border-b">Waktu</th>
-                  <th class="px-6 py-5 border-b">Nama & Kelas</th>
-                  <th class="px-6 py-5 border-b">Mata Pelajaran</th>
-                  <th class="px-6 py-5 border-b text-center">Status</th>
-                </tr>
-              </thead>
-              <tbody id="live-table-body" class="text-sm divide-y divide-gray-100">
-                <!-- Data dari script -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Modals -->
-  <!-- Progress Modal -->
-  <div id="modal-progress" class="hidden fixed inset-0 z-[110] items-center justify-center p-4">
-    <div onclick="toggleModal('modal-progress')" class="absolute inset-0 bg-blue-900/40 backdrop-blur-sm"></div>
-    <div class="relative bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden border border-white animate-scale-up">
-      <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-blue-50/50">
-        <h3 class="font-black text-gray-800 uppercase tracking-tight flex items-center gap-2">
-          <i data-lucide="info" class="text-blue-600"></i> Detail Progres Santri
-        </h3>
-        <button onclick="toggleModal('modal-progress')" class="p-2 hover:bg-white rounded-xl transition-colors">
-          <i data-lucide="x" class="w-5 h-5 text-gray-400"></i>
-        </button>
-      </div>
-      <div id="progress-content" class="p-8">
-        <!-- Content Diisi JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4">
-    <div onclick="toggleModal('login-modal')" class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"></div>
-    <div class="relative bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-scale-up">
-      <div class="p-8 text-center bg-gray-50/50 border-b">
-        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg border border-green-50">
-           <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo" class="w-10 h-10 object-contain">
-        </div>
-        <h2 class="text-2xl font-black text-gray-800">Login Admin</h2>
-        <p class="text-[10px] font-bold text-[#00AA5B] uppercase tracking-[0.3em]">Akademik System</p>
-      </div>
-      <div class="p-8 space-y-5">
-        <input type="text" id="admin-user" placeholder="Username" class="w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl outline-none focus:border-[#00AA5B] focus:bg-white transition-all font-semibold">
-        <input type="password" id="admin-pass" placeholder="Password" class="w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl outline-none focus:border-[#00AA5B] focus:bg-white transition-all font-semibold">
-        <button onclick="Auth.doLogin()" id="btnLogin" class="w-full bg-[#00AA5B] text-white font-black py-4 rounded-2xl shadow-lg hover:bg-[#008f4c] active:scale-95 transition-all uppercase tracking-widest text-xs">Autentikasi Sekarang</button>
-      </div>
-    </div>
-  </div>
-
-  <footer class="bg-white border-t border-gray-200 py-6 px-6 mt-auto">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="text-[13px] text-[#6D7588] font-medium">&copy; 2026, <span class="font-bold text-gray-700">AKADEMIK MTs Amtsilati.</span></div>
-    </div>
-  </footer>
-</div>
-
-<script>
-  lucide.createIcons();
-
-  function toggleModal(id) {
-    const modal = document.getElementById(id);
-    modal.classList.toggle('hidden');
-    modal.classList.toggle('flex');
-  }
-
-    .desktop-wrapper {
-      width: 1280px; /* Lebar standar desktop */
-      height: 100vh;
-      margin: 0 auto; /* Posisi di tengah */
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      position: relative;
-  // --- LOGIKA SISTEM ---
-
-  const Progress = {
-    doSearchMain: function() {
-      const kelas = document.getElementById('sel-kelas').value;
-      const nama = document.getElementById('inp-nama').value;
-
-      if (!kelas || !nama) {
-        alert("Pilih Kelas dan isi Nama Lengkap!");
-        return;
-      }
-
-      toggleModal('modal-progress');
-      document.getElementById('progress-content').innerHTML = `
-        <div class="flex flex-col items-center py-10">
-          <div class="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p class="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Mencari Data...</p>
-        </div>
-      `;
-
-      // Bridge ke Apps Script
-      google.script.run
-        .withSuccessHandler(this.renderResult)
-        .getStudentData(kelas, nama);
-    },
-
-    renderResult: function(res) {
-      if (!res) {
-        document.getElementById('progress-content').innerHTML = `
-          <div class="text-center py-10">
-            <i data-lucide="alert-circle" class="w-12 h-12 text-red-400 mx-auto mb-4"></i>
-            <h3 class="font-bold text-gray-800">Data Tidak Ditemukan</h3>
-            <p class="text-sm text-gray-400">Periksa kembali penulisan nama dan pilihan kelas.</p>
-          </div>
-        `;
-        lucide.createIcons();
-        return;
-      }
-
-      document.getElementById('progress-content').innerHTML = `
-        <div class="space-y-6 animate-scale-up">
-          <div class="bg-blue-50 p-6 rounded-3xl border border-blue-100 text-center">
-            <h4 class="font-black text-blue-900 text-xl uppercase">${res.nama}</h4>
-            <p class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.2em]">${res.kelas} | MTs Amtsilati</p>
-          </div>
-          
-          <div class="grid grid-cols-2 gap-4">
-            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-              <span class="text-[10px] font-bold text-gray-400 uppercase">Status KBM</span>
-              <div class="font-black text-gray-700 mt-1">${res.statusKbm}</div>
-            </div>
-            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-              <span class="text-[10px] font-bold text-gray-400 uppercase">Sisa Denda</span>
-              <div class="font-black text-red-600 mt-1">Rp ${res.denda}</div>
-            </div>
-          </div>
-          <div class="bg-green-50 p-5 rounded-2xl border border-green-100">
-            <h5 class="text-[10px] font-bold text-green-600 uppercase mb-3 flex items-center gap-2">
-              <i data-lucide="check-circle" class="w-3 h-3"></i> Capaian Terakhir
-            </h5>
-            <p class="text-sm font-bold text-green-900 italic">"${res.capaian}"</p>
-          </div>
-        </div>
-      `;
-      lucide.createIcons();
+    .iframe-container {
+      width: 100%;
+      height: 100dvh; /* Menggunakan dvh agar pas di mobile browser */
+      overflow: hidden;
     }
-  };
-
-  const LiveSystem = {
-    update: function() {
-      google.script.run
-        .withSuccessHandler(this.renderTable)
-        .getLiveQueueData();
-    },
-
-    renderTable: function(data) {
-      const tbody = document.getElementById('live-table-body');
-      const counter = document.getElementById('stat-kbm-tes');
-      const listKelas = document.getElementById('list-top-kelas');
-
-      counter.innerText = data.total;
-
-      // Render Table Rows
-      tbody.innerHTML = data.rows.map(row => `
-        <tr class="hover:bg-gray-50/50 transition-colors">
-          <td class="px-6 py-4 text-gray-400 font-medium text-xs">${row.waktu}</td>
-          <td class="px-6 py-4">
-            <div class="font-bold text-gray-700 uppercase text-xs">${row.nama}</div>
-            <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">${row.kelas}</div>
-          </td>
-          <td class="px-6 py-4 text-gray-600 italic text-xs font-medium">${row.mapel}</td>
-          <td class="px-6 py-4 text-center">
-            <span class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-[9px] font-black uppercase tracking-tighter">ANTRE</span>
-          </td>
-        </tr>
-      `).join('');
 
     iframe {
       display: block;
       width: 100%;
       height: 100%;
       border: none;
-      // Render Top Kelas
-      listKelas.innerHTML = data.topKelas.map(k => `
-        <div class="flex justify-between items-center text-sm font-medium">
-          <span class="text-gray-600 uppercase font-bold text-xs">Kelas ${k.nama}</span>
-          <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-md text-[10px] font-black">${k.total} Siswa</span>
-        </div>
-      `).join('') || '<p class="text-center text-xs text-gray-400 italic">Tidak ada antrean</p>';
     }
   </style>
 </head>
 <body>
-  <div class="desktop-wrapper">
+  <div class="iframe-container">
     <iframe
       id="app"
       src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
@@ -347,37 +41,5 @@
       allow="fullscreen; camera; microphone; display-capture; geolocation;">
     </iframe>
   </div>
-  };
-
-  const Auth = {
-    doLogin: function() {
-      const u = document.getElementById('admin-user').value;
-      const p = document.getElementById('admin-pass').value;
-      const btn = document.getElementById('btnLogin');
-
-      btn.innerText = "VERIFIKASI...";
-      btn.disabled = true;
-
-      google.script.run
-        .withSuccessHandler(res => {
-          if(res.success) {
-            window.top.location.href = res.url;
-          } else {
-            alert("Akses Gagal!");
-            btn.innerText = "AUTENTIKASI SEKARANG";
-            btn.disabled = false;
-          }
-        })
-        .checkAdmin(u, p);
-    }
-  };
-
-  // Inisialisasi & Auto Refresh
-  window.onload = () => {
-    LiveSystem.update();
-    setInterval(() => LiveSystem.update(), 30000); // Update tiap 30 detik
-  };
-</script>
-
 </body>
 </html>
