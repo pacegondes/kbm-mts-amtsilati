@@ -2,23 +2,23 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>LAPORAN KBM SISWA</title>
   <link rel="icon" href="https://i.ibb.co.com/1fHCTtJ5/logo.png" />
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #eee;
-      overflow: hidden; /* Mencegah scroll ganda */
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      background-color: #f8fafc;
+      overflow: hidden;
+      font-family: sans-serif;
     }
 
+    /* Container Utama */
     .iframe-container {
       width: 100%;
-      height: 100dvh; /* Menggunakan dvh agar pas di mobile browser */
-      overflow: hidden;
+      height: 100dvh;
+      position: relative;
     }
 
     iframe {
@@ -26,20 +26,76 @@
       width: 100%;
       height: 100%;
       border: none;
+      opacity: 0; /* Sembunyikan sampai loading selesai */
+      transition: opacity 0.5s ease;
+    }
+
+    /* Style Loading Spinner */
+    .loader-wrapper {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      z-index: 10;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #00AA5B;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      margin-top: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #64748b;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
   </style>
 </head>
 <body>
+
   <div class="iframe-container">
+    <!-- Loading Screen -->
+    <div id="loader" class="loader-wrapper">
+      <div class="spinner"></div>
+      <div class="loading-text">Menyiapkan Data KBM...</div>
+    </div>
+
     <iframe
       id="app"
       src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
       scrolling="yes"
       allowfullscreen="true"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allow="fullscreen; camera; microphone; display-capture; geolocation;">
+      allow="fullscreen; camera; microphone; display-capture; geolocation;"
+      onload="removeLoader()">
     </iframe>
   </div>
+
+  <script>
+    function removeLoader() {
+      const loader = document.getElementById('loader');
+      const iframe = document.getElementById('app');
+      
+      // Beri sedikit jeda agar transisi halus
+      setTimeout(() => {
+        loader.style.display = 'none';
+        iframe.style.opacity = '1';
+      }, 500);
+    }
+  </script>
 </body>
 </html>
