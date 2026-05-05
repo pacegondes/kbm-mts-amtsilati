@@ -2,195 +2,237 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KBM Dashboard - Green Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Portal KBM - Dashboard</title>
   <link rel="icon" href="https://i.ibb.co.com/1fHCTtJ5/logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Menggunakan font Nunito Sans untuk kesan ramah & rapi ala E-commerce -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --primary: #10b981; /* Emerald Green */
-      --primary-dark: #059669;
-      --bg: #f0fdf4; /* Very light green bg */
-      --card-bg: rgba(255, 255, 255, 0.95);
-      --text-main: #064e3b;
-      --text-muted: #6b7280;
+      /* Palet Warna ala Tokopedia */
+      --tk-green: #00AA5B; 
+      --tk-green-dark: #00884A;
+      --tk-bg: #F3F4F5; /* Background luar abu-abu terang */
+      --tk-surface: #FFFFFF; /* Background card putih bersih */
+      --tk-text-dark: #31353B;
+      --tk-text-gray: #6D7588;
+      --tk-border: #E5E7E9;
     }
 
     * {
       box-sizing: border-box;
-      transition: all 0.25s ease;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito Sans', sans-serif;
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg);
-      color: var(--text-main);
-      height: 100vh;
+      background-color: var(--tk-bg);
+      color: var(--tk-text-dark);
       display: flex;
       flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    /* Navigation - Responsive Padding */
-    nav {
-      width: 95%;
+    /* --- HEADER (Navbar Fixed) --- */
+    .header {
+      background-color: var(--tk-surface);
+      border-bottom: 1px solid var(--tk-border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 6px 0 rgba(49,53,59,0.12);
+    }
+
+    .header-container {
       max-width: 1200px;
-      margin: 15px auto;
-      padding: 12px 20px;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
+      margin: 0 auto;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
-      z-index: 10;
+      padding: 0 16px;
     }
 
-    .brand {
+    .brand-area {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .brand img {
+    .brand-area img {
       height: 32px;
-      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .brand-text h1 {
-      margin: 0;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 800;
+      color: var(--tk-text-dark);
+      line-height: 1.2;
     }
 
-    /* Button Styling */
-    .btn-primary {
-      padding: 8px 16px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 13px;
+    .brand-text span {
+      font-size: 12px;
+      color: var(--tk-text-gray);
       font-weight: 600;
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
 
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
+    /* Tombol Utama */
+    .btn-action {
+      background-color: var(--tk-green);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
     }
 
-    /* Main Container - Auto Responsive Height */
-    .app-wrapper {
+    .btn-action:hover {
+      background-color: var(--tk-green-dark);
+    }
+
+    /* --- MAIN CONTENT (App Wrapper) --- */
+    .main-content {
       flex: 1;
-      width: 95%;
+      width: 100%;
       max-width: 1200px;
-      margin: 0 auto 15px;
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.07);
+      margin: 16px auto;
+      background-color: var(--tk-surface);
+      border-radius: 12px;
+      border: 1px solid var(--tk-border);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(16, 185, 129, 0.1);
     }
 
-    /* Loader */
-    .loader-screen {
+    /* Loading State */
+    .loader-container {
       position: absolute;
       inset: 0;
-      background: #fff;
+      background-color: var(--tk-surface);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 5;
+      z-index: 10;
+      transition: opacity 0.4s ease;
     }
 
-    .leaf-loader {
+    .spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #ecfdf5;
-      border-top-color: var(--primary);
+      border: 4px solid var(--tk-border);
+      border-top-color: var(--tk-green);
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      animation: spin 1s linear infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--tk-text-gray);
+    }
 
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* Iframe */
     iframe {
       width: 100%;
       height: 100%;
       border: none;
       opacity: 0;
+      transition: opacity 0.5s ease;
     }
 
-    iframe.loaded {
+    iframe.ready {
       opacity: 1;
     }
 
-    /* Media Queries for Mobile */
-    @media (max-width: 640px) {
-      nav {
-        padding: 10px 15px;
+    /* --- RESPONSIVE MOBILE --- */
+    @media screen and (max-width: 768px) {
+      .header-container {
+        height: 56px;
+        padding: 0 12px;
       }
-      .brand-text p {
-        display: none; /* Sembunyikan deskripsi di HP agar lega */
+      
+      .brand-text span {
+        display: none; /* Sembunyikan sub-judul di HP */
       }
-      .btn-primary {
-        font-size: 12px;
+
+      .btn-action {
         padding: 6px 12px;
+        font-size: 12px;
       }
-      .app-wrapper {
-        width: 100%;
-        border-radius: 0; /* Full screen di HP tanpa round corner */
-        margin-bottom: 0;
+
+      .main-content {
+        margin: 0; /* Hilangkan margin luar */
+        border-radius: 0; /* Ubah ke bentuk kotak penuh */
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        box-shadow: none;
+        height: calc(100vh - 56px); /* Tinggi presisi di HP */
       }
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <div class="brand">
-      <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo">
-      <div class="brand-text">
-        <h1>SISTEM KBM</h1>
-        <p style="margin:0; font-size:10px; color:var(--text-muted)">Dashboard Akademik Terpadu</p>
+  <!-- Header Navigasi -->
+  <header class="header">
+    <div class="header-container">
+      <div class="brand-area">
+        <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo KBM">
+        <div class="brand-text">
+          <h1>Laporan KBM</h1>
+          <span>Portal Akademik Terpadu</span>
+        </div>
       </div>
+      <a href="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=akademik" 
+         target="_blank" class="btn-action">
+         Sistem Akademik
+      </a>
     </div>
-    
-    <a href="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=akademik" 
-       target="_blank" class="btn-primary">
-       Buka Akademik
-    </a>
-  </nav>
+  </header>
 
-  <div class="app-wrapper">
-    <div class="loader-screen" id="loader">
-      <div class="leaf-loader"></div>
-      <p style="margin-top: 15px; font-size: 13px; color: var(--primary); font-weight: 600;">Mengambil Data...</p>
+  <!-- Kontainer Aplikasi -->
+  <main class="main-content">
+    <div id="loading" class="loader-container">
+      <div class="spinner"></div>
+      <div class="loader-text">Memuat Sistem...</div>
     </div>
 
     <iframe
-      id="app"
+      id="appFrame"
       src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
-      onload="finishLoad()"
+      onload="hideLoading()"
       allowfullscreen="true">
     </iframe>
-  </div>
+  </main>
 
   <script>
-    function finishLoad() {
-      const loader = document.getElementById('loader');
-      const iframe = document.getElementById('app');
+    function hideLoading() {
+      const loader = document.getElementById('loading');
+      const iframe = document.getElementById('appFrame');
       
+      // Efek transisi smooth
       loader.style.opacity = '0';
       setTimeout(() => {
         loader.style.display = 'none';
-        iframe.classList.add('loaded');
-      }, 300);
+        iframe.classList.add('ready');
+      }, 400); // Tunggu animasi opacity selesai
     }
   </script>
 
