@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KBM Dashboard - Lyra Style</title>
+  <title>KBM Dashboard - Green Edition</title>
   <link rel="icon" href="https://i.ibb.co.com/1fHCTtJ5/logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --accent: #6366f1; /* Indigo vibrant ala Lyra */
-      --bg: #f8fafc;
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --text-main: #1e293b;
-      --text-muted: #64748b;
+      --primary: #10b981; /* Emerald Green */
+      --primary-dark: #059669;
+      --bg: #f0fdf4; /* Very light green bg */
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-main: #064e3b;
+      --text-muted: #6b7280;
     }
 
     * {
       box-sizing: border-box;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
 
     body {
@@ -29,96 +30,74 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
-    /* Floating Navigation */
+    /* Navigation - Responsive Padding */
     nav {
-      width: 1280px;
-      margin: 20px auto 10px;
-      padding: 15px 30px;
+      width: 95%;
+      max-width: 1200px;
+      margin: 15px auto;
+      padding: 12px 20px;
       background: var(--card-bg);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
       z-index: 10;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
 
     .brand img {
-      height: 35px;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+      height: 32px;
+      width: auto;
     }
 
     .brand-text h1 {
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
-      letter-spacing: -0.5px;
     }
 
-    .brand-text p {
-      margin: 0;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-link {
-      padding: 10px 20px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-muted);
-      background: transparent;
-    }
-
-    .btn-link:hover {
-      color: var(--accent);
-      background: rgba(99, 102, 241, 0.08);
-    }
-
+    /* Button Styling */
     .btn-primary {
-      background: var(--accent);
-      color: white !important;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      padding: 8px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
-      background: #4f46e5;
+      background: var(--primary-dark);
+      transform: translateY(-1px);
     }
 
-    /* App Container */
-    .app-container {
-      width: 1280px;
-      flex-grow: 1;
-      margin: 0 auto 20px;
+    /* Main Container - Auto Responsive Height */
+    .app-wrapper {
+      flex: 1;
+      width: 95%;
+      max-width: 1200px;
+      margin: 0 auto 15px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.07);
       position: relative;
-      background: #fff;
-      border-radius: 24px;
-      border: 1px solid rgba(0,0,0,0.05);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
       overflow: hidden;
+      border: 1px solid rgba(16, 185, 129, 0.1);
     }
 
-    /* Loading State ala Lyra */
-    .loader-overlay {
+    /* Loader */
+    .loader-screen {
       position: absolute;
       inset: 0;
       background: #fff;
@@ -129,13 +108,13 @@
       z-index: 5;
     }
 
-    .shimmer {
-      width: 50px;
-      height: 50px;
-      border: 3px solid rgba(99, 102, 241, 0.1);
-      border-left-color: var(--accent);
+    .leaf-loader {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #ecfdf5;
+      border-top-color: var(--primary);
       border-radius: 50%;
-      animation: spin 0.8s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+      animation: spin 0.7s linear infinite;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -145,21 +124,29 @@
       height: 100%;
       border: none;
       opacity: 0;
-      transition: opacity 0.5s ease-in;
     }
 
     iframe.loaded {
       opacity: 1;
     }
 
-    /* Footer Credits */
-    .footer {
-      text-align: center;
-      padding-bottom: 15px;
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-      text-transform: uppercase;
+    /* Media Queries for Mobile */
+    @media (max-width: 640px) {
+      nav {
+        padding: 10px 15px;
+      }
+      .brand-text p {
+        display: none; /* Sembunyikan deskripsi di HP agar lega */
+      }
+      .btn-primary {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+      .app-wrapper {
+        width: 100%;
+        border-radius: 0; /* Full screen di HP tanpa round corner */
+        margin-bottom: 0;
+      }
     }
   </style>
 </head>
@@ -169,51 +156,41 @@
     <div class="brand">
       <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo">
       <div class="brand-text">
-        <h1>KBM ACADEMY</h1>
-        <p>Sistem Informasi Akademik Siswa</p>
+        <h1>SISTEM KBM</h1>
+        <p style="margin:0; font-size:10px; color:var(--text-muted)">Dashboard Akademik Terpadu</p>
       </div>
     </div>
     
-    <div class="nav-links">
-      <a href="#" class="btn-link">Panduan</a>
-      <a href="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=akademik" 
-         target="_blank" class="btn-link btn-primary">
-         Sistem Akademik
-      </a>
-    </div>
+    <a href="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=akademik" 
+       target="_blank" class="btn-primary">
+       Buka Akademik
+    </a>
   </nav>
 
-  <div class="app-container">
-    <div class="loader-overlay" id="loader">
-      <div class="shimmer"></div>
-      <p style="margin-top: 15px; font-weight: 500; font-size: 14px; color: var(--text-muted)">Sinkronisasi Data...</p>
+  <div class="app-wrapper">
+    <div class="loader-screen" id="loader">
+      <div class="leaf-loader"></div>
+      <p style="margin-top: 15px; font-size: 13px; color: var(--primary); font-weight: 600;">Mengambil Data...</p>
     </div>
 
     <iframe
       id="app"
       src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
-      onload="onIframeLoad()"
+      onload="finishLoad()"
       allowfullscreen="true">
     </iframe>
   </div>
 
-  <div class="footer">
-    &copy; 2026 Academic Management System • Crafted with Care
-  </div>
-
   <script>
-    function onIframeLoad() {
+    function finishLoad() {
       const loader = document.getElementById('loader');
       const iframe = document.getElementById('app');
       
-      // Memberikan sedikit jeda untuk animasi yang smooth
+      loader.style.opacity = '0';
       setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-          loader.style.display = 'none';
-          iframe.classList.add('loaded');
-        }, 300);
-      }, 500);
+        loader.style.display = 'none';
+        iframe.classList.add('loaded');
+      }, 300);
     }
   </script>
 
