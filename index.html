@@ -3,236 +3,273 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Portal KBM - Dashboard</title>
+  <title>KBM - Premium Workspace</title>
   <link rel="icon" href="https://i.ibb.co.com/1fHCTtJ5/logo.png" />
-  <!-- Menggunakan font Nunito Sans untuk kesan ramah & rapi ala E-commerce -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Menggunakan font 'Outfit' untuk kesan Futuristis & Tech -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* Palet Warna ala Tokopedia */
-      --tk-green: #00AA5B; 
-      --tk-green-dark: #00884A;
-      --tk-bg: #F3F4F5; /* Background luar abu-abu terang */
-      --tk-surface: #FFFFFF; /* Background card putih bersih */
-      --tk-text-dark: #31353B;
-      --tk-text-gray: #6D7588;
-      --tk-border: #E5E7E9;
+      --bg-deep: #0B1121; /* Background paling gelap */
+      --glass-bg: rgba(25, 33, 50, 0.6); /* Transparan untuk efek kaca */
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent-glow: #00F0FF; /* Neon Cyan */
+      --text-main: #FFFFFF;
+      --text-dim: #94A3B8;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Nunito Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     body {
-      background-color: var(--tk-bg);
-      color: var(--tk-text-dark);
+      background-color: var(--bg-deep);
+      /* Efek latar belakang bercahaya di sudut */
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+      color: var(--text-main);
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       height: 100vh;
       overflow: hidden;
     }
 
-    /* --- HEADER (Navbar Fixed) --- */
-    .header {
-      background-color: var(--tk-surface);
-      border-bottom: 1px solid var(--tk-border);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: 0 1px 6px 0 rgba(49,53,59,0.12);
+    /* --- KANVAS APLIKASI (Glassmorphism) --- */
+    .workspace-container {
+      width: 95%;
+      max-width: 1300px;
+      height: 92vh;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      height: 60px;
+    /* --- HEADER / NAVBAR --- */
+    .glass-header {
+      height: 70px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(11, 17, 33, 0.4);
     }
 
-    .brand-area {
+    .brand-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
 
-    .brand-area img {
-      height: 32px;
-      border-radius: 4px;
-    }
-
-    .brand-text {
+    /* Logo diberi background putih sedikit agar tetap terlihat jika logonya gelap */
+    .logo-wrapper {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
     }
 
-    .brand-text h1 {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--tk-text-dark);
-      line-height: 1.2;
+    .logo-wrapper img {
+      max-width: 28px;
+      max-height: 28px;
     }
 
-    .brand-text span {
-      font-size: 12px;
-      color: var(--tk-text-gray);
-      font-weight: 600;
-    }
-
-    /* Tombol Utama */
-    .btn-action {
-      background-color: var(--tk-green);
-      color: #FFFFFF;
-      font-size: 13px;
+    .title-group h1 {
+      font-size: 18px;
       font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .title-group span {
+      font-size: 12px;
+      color: var(--accent-glow);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Tombol Aksen Neon */
+    .btn-neon {
+      background: transparent;
+      color: var(--text-main);
       text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      transition: background-color 0.2s ease;
-    }
-
-    .btn-action:hover {
-      background-color: var(--tk-green-dark);
-    }
-
-    /* --- MAIN CONTENT (App Wrapper) --- */
-    .main-content {
-      flex: 1;
-      width: 100%;
-      max-width: 1200px;
-      margin: 16px auto;
-      background-color: var(--tk-surface);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 20px;
       border-radius: 12px;
-      border: 1px solid var(--tk-border);
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
     }
 
-    /* Loading State */
-    .loader-container {
+    .btn-neon:hover {
+      border-color: var(--accent-glow);
+      color: var(--accent-glow);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+    }
+
+    /* --- AREA KONTEN (Iframe) --- */
+    .content-area {
+      flex: 1;
+      position: relative;
+      background: #FFFFFF; /* Iframe tetap di atas canvas putih agar sistem Google Sheet di dalamnya jelas */
+    }
+
+    /* Modern Loader Animation */
+    .cyber-loader {
       position: absolute;
       inset: 0;
-      background-color: var(--tk-surface);
+      background: var(--bg-deep);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 10;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.6s ease;
     }
 
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid var(--tk-border);
-      border-top-color: var(--tk-green);
+    .pulse-ring {
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      border: 2px solid transparent;
+      border-top-color: var(--accent-glow);
+      border-bottom-color: var(--accent-glow);
+      animation: rotate-pulse 1.5s linear infinite;
+    }
+
+    @keyframes rotate-pulse {
+      0% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+      50% { transform: rotate(180deg) scale(1.1); opacity: 1; box-shadow: 0 0 20px var(--accent-glow); }
+      100% { transform: rotate(360deg) scale(1); opacity: 0.8; }
     }
 
     .loader-text {
-      margin-top: 16px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--tk-text-gray);
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: blink 1.5s infinite;
     }
 
-    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
 
-    /* Iframe */
     iframe {
       width: 100%;
       height: 100%;
       border: none;
       opacity: 0;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.8s ease;
     }
 
-    iframe.ready {
+    iframe.active {
       opacity: 1;
     }
 
-    /* --- RESPONSIVE MOBILE --- */
+    /* --- RESPONSIVE MOBILE TWEAKS --- */
     @media screen and (max-width: 768px) {
-      .header-container {
-        height: 56px;
-        padding: 0 12px;
+      body {
+        align-items: flex-start; /* Nempel ke atas */
       }
       
-      .brand-text span {
-        display: none; /* Sembunyikan sub-judul di HP */
+      .workspace-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0; /* Hilangkan sudut melengkung */
+        border: none;
       }
 
-      .btn-action {
-        padding: 6px 12px;
-        font-size: 12px;
+      .glass-header {
+        height: 60px;
+        padding: 0 15px;
       }
 
-      .main-content {
-        margin: 0; /* Hilangkan margin luar */
-        border-radius: 0; /* Ubah ke bentuk kotak penuh */
-        border-left: none;
-        border-right: none;
-        border-bottom: none;
-        box-shadow: none;
-        height: calc(100vh - 56px); /* Tinggi presisi di HP */
+      .title-group h1 {
+        font-size: 15px;
+      }
+      
+      .title-group span {
+        font-size: 10px;
+      }
+
+      .btn-neon {
+        padding: 8px 14px;
+        font-size: 11px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header Navigasi -->
-  <header class="header">
-    <div class="header-container">
-      <div class="brand-area">
-        <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo KBM">
-        <div class="brand-text">
-          <h1>Laporan KBM</h1>
-          <span>Portal Akademik Terpadu</span>
+  <div class="workspace-container">
+    
+    <!-- Bagian Atas / Navigasi -->
+    <header class="glass-header">
+      <div class="brand-group">
+        <div class="logo-wrapper">
+          <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo">
+        </div>
+        <div class="title-group">
+          <h1>Sistem KBM</h1>
+          <span>Portal Administrasi</span>
         </div>
       </div>
       <a href="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=akademik" 
-         target="_blank" class="btn-action">
-         Sistem Akademik
+         target="_blank" class="btn-neon">
+         Buka Akademik
       </a>
-    </div>
-  </header>
+    </header>
 
-  <!-- Kontainer Aplikasi -->
-  <main class="main-content">
-    <div id="loading" class="loader-container">
-      <div class="spinner"></div>
-      <div class="loader-text">Memuat Sistem...</div>
-    </div>
+    <!-- Bagian Utama / Aplikasi -->
+    <main class="content-area">
+      <div id="loader" class="cyber-loader">
+        <div class="pulse-ring"></div>
+        <div class="loader-text">Menyiapkan Workspace...</div>
+      </div>
 
-    <iframe
-      id="appFrame"
-      src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
-      onload="hideLoading()"
-      allowfullscreen="true">
-    </iframe>
-  </main>
+      <iframe
+        id="appFrame"
+        src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
+        onload="appReady()"
+        allowfullscreen="true">
+      </iframe>
+    </main>
+    
+  </div>
 
   <script>
-    function hideLoading() {
-      const loader = document.getElementById('loading');
+    function appReady() {
+      const loader = document.getElementById('loader');
       const iframe = document.getElementById('appFrame');
       
-      // Efek transisi smooth
-      loader.style.opacity = '0';
+      // Tunggu sedetik ekstra untuk memberi kesan transisi aplikasi yang berat/canggih
       setTimeout(() => {
-        loader.style.display = 'none';
-        iframe.classList.add('ready');
-      }, 400); // Tunggu animasi opacity selesai
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+          iframe.classList.add('active');
+        }, 600);
+      }, 500);
     }
   </script>
 
