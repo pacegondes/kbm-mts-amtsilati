@@ -2,47 +2,150 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1280, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LAPORAN KBM SISWA - DESKTOP MODE</title>
   <link rel="icon" href="https://i.ibb.co.com/1fHCTtJ5/logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    html, body {
+    :root {
+      --primary-color: #2563eb;
+      --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+    }
+
+    body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #eee;
-      overflow: auto; /* Mengizinkan scroll jika layar di bawah 1280px */
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-gradient);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    .desktop-wrapper {
-      width: 1280px; /* Lebar standar desktop */
-      height: 100vh;
-      margin: 0 auto; /* Posisi di tengah */
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      position: relative;
+    /* Top Navigation Bar */
+    .header {
+      width: 1280px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+      border-radius: 12px 12px 0 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      justify-content: space-between;
     }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .brand img {
+      height: 32px;
+    }
+
+    /* Container Utama */
+    .desktop-wrapper {
+      width: 1280px;
+      height: calc(90vh - 60px);
+      background-color: #ffffff;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-radius: 0 0 12px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Loading Spinner */
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
     iframe {
+      position: relative;
+      z-index: 2;
       display: block;
       width: 100%;
       height: 100%;
       border: none;
+      background: transparent;
+    }
+
+    /* Link di Footer/Header */
+    .system-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .system-link:hover {
+      background: rgba(37, 99, 235, 0.1);
     }
   </style>
 </head>
 <body>
+
+  <!-- Header Area -->
+  <div class="header">
+    <div class="brand">
+      <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo">
+      <span>LAPORAN KBM SISWA</span>
+    </div>
+    <a href="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=akademik" 
+       target="_blank" class="system-link">
+       Sistem Akademik &rarr;
+    </a>
+  </div>
+
+  <!-- Iframe Container -->
   <div class="desktop-wrapper">
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <p style="color: #6b7280; font-size: 12px;">Memuat Aplikasi...</p>
+    </div>
+    
     <iframe
       id="app"
       src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
+      onload="hideLoader()"
       scrolling="yes"
       allowfullscreen="true"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
       allow="fullscreen; camera; microphone; display-capture; geolocation;">
     </iframe>
   </div>
+
+  <script>
+    function hideLoader() {
+      document.getElementById('loader').style.display = 'none';
+    }
+  </script>
+
 </body>
 </html>
