@@ -1,249 +1,206 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>KBM OS - Smart Dashboard</title>
-  <link rel="icon" href="https://i.ibb.co.com/1fHCTtJ5/logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Bento:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Akademik MTs Amtsilati</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
-    :root {
-      --bg-color: #f2f5f8;
-      --accent: #22c55e; /* Hijau Segar */
-      --glass: rgba(255, 255, 255, 0.8);
-      --shadow: 0 8px 32px rgba(0,0,0,0.05);
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    /* Animasi Khusus Pop-up Modal */
+    @keyframes scaleUp {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
-
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--bg-color);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* --- TOP BAR --- */
-    header {
-      padding: 20px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: transparent;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .avatar {
-      width: 42px;
-      height: 42px;
-      background: var(--accent);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 800;
-      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-    }
-
-    .greeting h2 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 800;
-      color: #1e293b;
-    }
-
-    .greeting p {
-      margin: 0;
-      font-size: 11px;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* --- MAIN WORKSPACE --- */
-    main {
-      flex: 1;
-      margin: 0 15px 90px; /* Jarak untuk Bottom Nav */
-      background: #ffffff;
-      border-radius: 30px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-      border: 4px solid #ffffff;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 26px;
-      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    /* --- DYNAMIC BOTTOM NAV --- */
-    .bottom-nav {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 400px;
-      height: 65px;
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 22px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      border: 1px solid rgba(255,255,255,0.3);
-      z-index: 100;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #94a3b8;
-      font-size: 10px;
-      font-weight: 600;
-      gap: 4px;
-      transition: 0.3s;
-    }
-
-    .nav-item.active {
-      color: var(--accent);
-    }
-
-    .nav-item i {
-      font-size: 20px;
-    }
-
-    .center-btn {
-      width: 50px;
-      height: 50px;
-      background: var(--accent);
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: -35px;
-      box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
-      border: 4px solid var(--bg-color);
-      color: white;
-    }
-
-    /* --- LOADING ANIMATION --- */
-    #loader {
-      position: absolute;
-      inset: 0;
-      background: white;
-      z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: 0.5s;
-    }
-
-    .dot-spinner {
-      display: flex;
-      gap: 5px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: bounce 0.5s infinite alternate;
-    }
-
-    .dot:nth-child(2) { animation-delay: 0.1s; }
-    .dot:nth-child(3) { animation-delay: 0.2s; }
-
-    @keyframes bounce { to { transform: translateY(-10px); opacity: 0.3; } }
-
-    /* HP Tweak */
-    @media (max-width: 600px) {
-      header { padding: 15px 20px; }
-      main { margin: 0 10px 85px; border-radius: 24px; }
-      .bottom-nav { width: 95%; bottom: 10px; }
-    }
+    .animate-scale-up { animation: scaleUp 0.3s ease-out forwards; }
+    .backdrop-blur-sm { backdrop-filter: blur(4px); }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #00AA5B; border-radius: 10px; }
   </style>
 </head>
-<body>
+<body class="bg-[#f0f3f7]">
 
-  <header>
-    <div class="user-profile">
-      <div class="avatar">A</div>
-      <div class="greeting">
-        <p>Selamat Datang,</p>
-        <h2>Admin Akademik</h2>
+<div id="public-view" class="min-h-screen flex flex-col">
+  
+  <!-- Navigation -->
+  <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 py-3 px-4 shadow-sm">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3">
+          <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo" class="w-9 h-9 object-contain">
+          <div class="flex flex-col">
+            <span class="text-lg font-extrabold tracking-tight text-[#00AA5B] leading-none uppercase">AKADEMIK MTs Amtsilati</span>
+            <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase mt-0.5">Portal Informasi KBM Siswa</span>
+          </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="toggleModal('modal-progress')" class="hidden md:flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-600 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all hover:bg-gray-200 active:scale-95">
+          <i data-lucide="search" class="w-4 h-4"></i>
+          <span>Cek Progres</span>
+        </button>
+
+        <button onclick="toggleModal('login-modal')" class="group relative flex items-center gap-3 px-6 py-2.5 bg-[#00AA5B] text-white rounded-2xl font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:bg-[#008f4c] hover:shadow-[0_10px_20px_-5px_rgba(0,170,91,0.4)] active:scale-95 overflow-hidden">
+          <div class="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-[-25deg] -translate-x-full group-hover:translate-x-[250%] transition-transform duration-700 ease-in-out"></div>
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <span>Admin Portal</span>
+        </button>
       </div>
     </div>
-    <div style="font-size: 20px;">🔔</div>
-  </header>
+  </nav>
 
-  <main id="container">
-    <div id="loader">
-      <div class="dot-spinner">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+  <!-- Hero Section -->
+  <div class="bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 py-8 md:py-16 flex flex-col md:flex-row items-center gap-10">
+      <div class="flex-1 w-full text-center md:text-left">
+        <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
+          Pantau Progres Belajar <br><span class="text-[#00AA5B]">Siswa Secara Real-Time</span>
+        </h1>
+        <p class="text-gray-500 text-lg mb-8 font-medium">Cek laporan KBM, sisa cicilan denda, dan status kelulusan tes hanya dengan Nama & Kelas.</p>
+        
+        <div class="bg-white p-2 rounded-2xl border border-gray-200 flex flex-col md:flex-row gap-2 max-w-2xl mx-auto md:mx-0 shadow-lg">
+          <select id="sel-kelas" class="p-4 bg-gray-50 border-none rounded-xl outline-none text-sm font-semibold focus:ring-2 focus:ring-green-400 cursor-pointer">
+              <option value="">Pilih Kelas</option>
+              <option value="7A">Kelas 7A</option>
+              <option value="7B">Kelas 7B</option>
+          </select>
+          <input type="text" id="inp-nama" placeholder="Masukkan Nama Lengkap Siswa..." class="flex-1 p-4 bg-gray-50 border-none rounded-xl outline-none text-sm focus:ring-2 focus:ring-green-400 uppercase font-bold">
+          <button class="bg-[#00AA5B] text-white px-8 py-4 rounded-xl font-bold text-sm shadow-lg hover:bg-[#008f4c] transition active:scale-95 flex items-center justify-center gap-2">
+            <i data-lucide="search" class="w-4 h-4"></i> Cek Progres
+          </button>
+        </div>
       </div>
-      <p style="font-size: 12px; color: #64748b; margin-top: 15px; font-weight: 600;">Sinkronisasi...</p>
+
+      <div class="identity-card w-80 p-8 bg-green-50 rounded-[2rem] border border-green-100 flex flex-col items-center justify-center text-center shadow-inner">
+        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-md mb-4 p-2 border border-white">
+           <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo" class="w-full h-full object-contain">
+        </div>
+        <div class="flex flex-col items-center">
+          <h4 class="font-bold text-emerald-900 text-base uppercase leading-tight">Madrasah<br>Tsanawiyah Amtsilti</h4>
+          <div class="h-[2px] w-8 bg-[#00AA5B] my-3 opacity-30"></div>
+          <p class="text-[10px] text-emerald-600 font-bold tracking-[0.2em] uppercase">TA 2025/2026</p>
+        </div>
+      </div>
     </div>
-
-    <iframe
-      id="appFrame"
-      src="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=wali"
-      onload="ready()">
-    </iframe>
-  </main>
-
-  <!-- Navigation ala Mobile App -->
-  <div class="bottom-nav">
-    <a href="#" class="nav-item active">
-      <span>🏠</span>
-      <span>Home</span>
-    </a>
-    <a href="https://script.google.com/macros/s/AKfycbzC6J2FBEnglLQJQK9pO6VwzZI2LLqBZJq_UB0VMqEKRKs_8XB8rwe3J76xhpZb1aq1/exec?page=akademik" target="_blank" class="nav-item center-btn">
-      <span style="font-size: 24px;">+</span>
-    </a>
-    <a href="#" class="nav-item" onclick="location.reload()">
-      <span>🔄</span>
-      <span>Refresh</span>
-    </a>
   </div>
 
-  <script>
-    function ready() {
-      const loader = document.getElementById('loader');
-      loader.style.opacity = '0';
-      setTimeout(() => loader.style.display = 'none', 500);
-    }
-    
-    // Efek saat frame ditekan (hanya estetika)
-    document.getElementById('container').addEventListener('click', function() {
-      this.style.transform = 'scale(0.99)';
-      setTimeout(() => this.style.transform = 'scale(1)', 150);
-    });
-  </script>
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 py-12 flex-grow w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column: Stats -->
+      <div class="lg:col-span-1 space-y-6">
+        <h3 class="font-bold text-gray-800 flex items-center gap-2 text-lg uppercase tracking-tight">
+           <span class="w-2 h-8 bg-[#00AA5B] rounded-full"></span> Statistik Tes
+        </h3>
+
+        <div class="bg-white p-8 rounded-2xl shadow-sm border-l-8 border-orange-500 flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-500 font-bold uppercase tracking-wide">Total Antrean Tes</p>
+            <h2 class="text-5xl font-black text-gray-800 mt-1" id="stat-kbm-tes">12</h2>
+            <p class="text-xs text-orange-600 mt-2 font-black uppercase">Mata Pelajaran</p>
+          </div>
+          <div class="p-5 bg-orange-50 rounded-2xl text-orange-500">
+            <i data-lucide="layers-2" class="w-10 h-10"></i>
+          </div>
+        </div>
+
+        <!-- Top Lists -->
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+           <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-blue-50/30">
+              <h4 class="font-bold text-gray-800 text-md">Top 5 Antrean</h4>
+              <i data-lucide="users-round" class="w-5 h-5 text-blue-500"></i>
+           </div>
+           <div class="p-5 space-y-4" id="list-top-siswa">
+              <div class="flex justify-between items-center text-sm font-medium">
+                <span class="text-gray-600">Ahmad Zaki (7A)</span>
+                <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-md text-xs font-bold">5 Mapel</span>
+              </div>
+              <div class="flex justify-between items-center text-sm font-medium">
+                <span class="text-gray-600">Siti Aminah (8B)</span>
+                <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-md text-xs font-bold">3 Mapel</span>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Table -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+          <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800">Antrean Tes Pengesahan (Real-Time)</h3>
+            <span class="flex items-center gap-2 text-xs font-bold text-[#00AA5B] px-4 py-2 bg-green-50 rounded-full border border-green-100 uppercase">
+              <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> Live System
+            </span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-gray-50 text-gray-500 text-xs uppercase font-bold tracking-wider">
+                <tr>
+                  <th class="px-6 py-5 border-b">Waktu</th>
+                  <th class="px-6 py-5 border-b">Nama & Kelas</th>
+                  <th class="px-6 py-5 border-b">Mata Pelajaran</th>
+                  <th class="px-6 py-5 border-b text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody id="live-table-body" class="text-sm divide-y divide-gray-100">
+                <tr>
+                  <td class="px-6 py-4 text-gray-400 font-medium">08:15</td>
+                  <td class="px-6 py-4 font-bold text-gray-700">M. RIFQI <span class="text-xs font-normal text-gray-400 ml-1">7A</span></td>
+                  <td class="px-6 py-4 text-gray-600 italic">Fiqih Wadhih II</td>
+                  <td class="px-6 py-4 text-center"><span class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-[10px] font-extrabold uppercase">Menunggu</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4">
+    <div onclick="toggleModal('login-modal')" class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"></div>
+    <div class="relative bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden animate-scale-up">
+      <div class="p-8 text-center bg-gray-50/50 border-b">
+        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg border border-green-50">
+           <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png" alt="Logo" class="w-10 h-10 object-contain">
+        </div>
+        <h2 class="text-2xl font-black text-gray-800">Login Admin</h2>
+        <p class="text-[10px] font-bold text-[#00AA5B] uppercase tracking-[0.3em]">Akademik System</p>
+      </div>
+      <div class="p-8 space-y-5">
+        <input type="text" placeholder="Username" class="w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl outline-none focus:border-[#00AA5B] focus:bg-white transition-all font-semibold">
+        <input type="password" placeholder="Password" class="w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl outline-none focus:border-[#00AA5B] focus:bg-white transition-all font-semibold">
+        <button class="w-full bg-[#00AA5B] text-white font-black py-4 rounded-2xl shadow-lg hover:bg-[#008f4c] active:scale-95 transition-all uppercase tracking-widest text-xs">Autentikasi Sekarang</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-white border-t border-gray-200 py-6 px-6 mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="text-[13px] text-[#6D7588] font-medium">&copy; 2026, <span class="font-bold text-gray-700">AKADEMIK MTs Amtsilati.</span></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Initialize Lucide Icons
+  lucide.createIcons();
+
+  // Modal Toggle Function
+  function toggleModal(id) {
+    const modal = document.getElementById(id);
+    modal.classList.toggle('hidden');
+    modal.classList.toggle('flex');
+  }
+</script>
 
 </body>
 </html>
